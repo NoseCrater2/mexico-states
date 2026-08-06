@@ -1,17 +1,17 @@
 @extends('layout.app')
 @section('content')
-            <div class="container-fluid px-4 py-4">
+            <div class="container-fluid">
                 <!-- Header Section -->
                 <div class="row mb-4 align-items-end">
                     <div class="col-md-8 position-relative">
-                        <div class="d-none d-md-block position-absolute bg-primary rounded-pill" style="width: 4px; left: -1.5rem; top: 0.5rem; bottom: 0.5rem;"></div>
-                        <h1 class="display-5 fw-bold text-dark mb-2">Demografía <br/><span class="text-muted">México 2024</span></h1>
+                        <div class="d-none d-md-block position-absolute"></div>
+                        <h1 class="display-5 fw-bold mb-2">Demografía de <span class="text-muted">México 2026</span></h1>
                         <p class="lead text-muted mb-0">Análisis integral de indicadores poblacionales, crecimiento histórico y distribución demográfica a nivel nacional.</p>
                     </div>
                     <div class="col-md-4 text-md-end mt-3 mt-md-0">
                         <div class="d-inline-flex align-items-center gap-2 bg-light px-3 py-2 rounded-pill shadow-sm border">
                             <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">update</span>
-                            <span class="fw-semibold text-dark small mb-0">Actualizado: Q1 2024</span>
+                            <span class="fw-semibold small mb-0">Actualizado: Q3 2026</span>
                         </div>
                     </div>
                 </div>
@@ -19,70 +19,50 @@
                 <div class="row g-4 mb-4">
                     <!-- Población Total -->
                     <div class="col-sm-6 col-xl-3">
-                        <div class="card bg-primary text-white h-100 shadow-sm border-0 card-kpi">
-                            <div class="card-body d-flex flex-column justify-content-between position-relative overflow-hidden">
-                                <div class="position-absolute bg-white opacity-10 rounded-circle" style="width: 150px; height: 150px; top: -50px; right: -50px; filter: blur(20px);"></div>
-                                <div class="d-flex justify-content-between align-items-start position-relative z-1">
-                                    <span class="text-uppercase small fw-bold tracking-wider">Población Total</span>
-                                    <span class="material-symbols-outlined">groups</span>
-                                </div>
-                                <div class="position-relative z-1 mt-3">
-                                    <h2 class="display-5 fw-bold mb-1 counter-animate" data-target="{{format_number($data['total_population'], 2)}}">0.0</h2>
+                         <x-card title="población total" bg_color="primary" >
+                            <x-slot:content>
+                                <div class="position-relative z-1 mt-3 text-white">
+                                    <h2 class="display-5 fw-bold mb-1  counter-animate" data-target="{{format_number($data['total_population'], 2)}}">0.0</h2>
                                     <p class="small mb-0 opacity-75">Millones de habitantes</p>
                                 </div>
-                            </div>
-                        </div>
+                            </x-slot:content>
+                        </x-card>
                     </div>
                 <!-- Edad Mediana -->
                     <div class="col-sm-6 col-xl-3">
-                        <div class="card h-100 shadow-sm border-0 card-kpi">
-                            <div class="card-body d-flex flex-column justify-content-between">
-                                <div class="d-flex justify-content-between align-items-start">
-                                    <span class="text-muted text-uppercase small fw-bold">Edad Mediana</span>
-                                    <span class="material-symbols-outlined text-tertiary">cake</span>
-                                </div>
+                        <x-card title="edad mediana" icon="cake" icon_color="success">
+                            <x-slot:content>
                                 <div class="mt-3">
-                                    <h2 class="display-5 fw-bold text-tertiary mb-1 counter-animate" data-target="{{$data['age_avg']}}">0.0</h2>
+                                    <h2 class="display-5 fw-bold  mb-1 counter-animate text-success" data-target="{{$data['age_avg']}}">0.0</h2>
                                     <p class="small text-muted mb-0">Años</p>
                                 </div>
-                            </div>
-                        </div>
+                            </x-slot:content>
+                        </x-card>
                     </div>
                 <!-- Tasa de Natalidad -->
                     <div class="col-sm-6 col-xl-3">
-                        <div class="card h-100 shadow-sm border-0 card-kpi">
-                            <div class="card-body d-flex flex-column justify-content-between">
-                                <div class="d-flex justify-content-between align-items-start">
-                                    <span class="text-muted text-uppercase small fw-bold">Tasa de Natalidad</span>
-                                    <span class="material-symbols-outlined text-primary">child_care</span>
-                                </div>
-                                <div class="mt-3">
-                                    <h2 class="display-5 fw-bold text-primary mb-1"><span class="counter-animate" data-target="{{$data['birth_rate']}}">0.0</span><span class="fs-4 ms-1 opacity-75">%</span></h2>
-                                    <p class="small text-muted mb-0">Nacimientos por 1,000 hab.</p>
-                                </div>
-                            </div>
-                        </div>
+                            <x-card title="tasa de natalidad" icon="child_care" icon_color="primary" >
+                                <x-slot:content>
+                                    <div class="mt-3">
+                                        <h2 class="display-5 fw-bold text-primary mb-1"><span class="counter-animate" data-target="{{$data['birth_rate']}}">0.0</span><span class="fs-4 ms-1 opacity-75">%</span></h2>
+                                        <p class="small text-muted mb-0">Nacimientos por 1,000 hab.</p>
+                                    </div>
+                                 </x-slot:content>
+                           </x-card>
                     </div>
                 <!-- Esperanza de Vida -->
                     <div class="col-sm-6 col-xl-3">
-                        <div class="card bg-tertiary-container h-100 shadow-sm border-0 card-kpi">
-                            <div class="card-body d-flex flex-column justify-content-between position-relative overflow-hidden">
-                                <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, transparent, rgba(255,255,255,0.1));"></div>
-                                <div class="d-flex justify-content-between align-items-start position-relative z-1">
-                                    <span class="text-uppercase small fw-bold tracking-wider">Esperanza de Vida</span>
-                                    <span class="material-symbols-outlined">favorite</span>
-                                </div>
-                                <div class="position-relative z-1 mt-3">
+                         <x-card title="esperanza de vida" icon="favorite" bg_color="secondary" icon_color="white" >
+                                <x-slot:content>
+                                    <div class="position-relative z-1 mt-3 text-white">
                                     <h2 class="display-5 fw-bold mb-1 counter-animate" data-target="{{$data['life_expectancy']}}">0.0</h2>
                                     <p class="small mb-0 opacity-75">Años promedio</p>
                                 </div>
-                            </div>
-                        </div>
+                                 </x-slot:content>
+                           </x-card>
                     </div>
                 </div>
-            <!-- Main Visuals -->
             <div class="row g-4">
-            <!-- Growth Chart -->
                 <div class="col-lg-8">
                     <div class="card h-100 shadow-sm border-0">
                         <div class="card-body d-flex flex-column">
@@ -114,37 +94,35 @@
                                     <span>1970</span>
                                     <span>1990</span>
                                     <span>2010</span>
-                                    <span>2024</span>
+                                    <span>2026</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- Gender & Map -->
                 <div class="col-lg-4 d-flex flex-column gap-4">
-                    <!-- Gender Donut -->
                     <div class="card shadow-sm border-0 flex-grow-1">
                         <div class="card-body d-flex flex-column align-items-center justify-content-center position-relative">
-                            <h3 class="h5 position-absolute top-0 start-0 m-3">Distribución<br/>por Género</h3>
+                            <h3 class="h5 position-absolute top-0 start-0 m-3">Distribución por Género</h3>
                             <div class="position-relative mt-5" style="width: 180px; height: 180px;">
                                 <svg class="w-100 h-100" style="transform: rotate(-90deg);" viewbox="-1 -1 40 40">
-                                    <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#e9ecef" stroke-width="6"></path>
-                                    <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#0d6efd" stroke-dasharray="51.2, 100" stroke-width="6"></path>
+                                    <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#0d6efd" stroke-width="6"></path>
+                                    <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#dc3545" stroke-dasharray="51.2, 100" stroke-width="6"></path>
                                 </svg>
                                 <div class="position-absolute top-50 start-50 translate-middle">
-                                    <span class="material-symbols-outlined text-primary" style="font-size: 32px;">wc</span>
+                                    <span class="material-symbols-outlined text-secondary" style="font-size: 32px;">wc</span>
                                 </div>
                             </div>
                             <div class="d-flex justify-content-between w-100 mt-4 px-2">
                                 <div class="text-center">
-                                    <div class="rounded-circle bg-primary mx-auto mb-1" style="width: 12px; height: 12px;"></div>
-                                    <div class="small fw-bold text-dark">Mujeres</div>
-                                    <div class="h4 text-primary mb-0">{{format_percent($data['fem_population'], $data['total_population'])}}</div>
+                                    <div class="rounded-circle bg-danger mx-auto mb-1" style="width: 12px; height: 12px;"></div>
+                                    <div class="small fw-bold">Mujeres</div>
+                                    <div class="h4 text-danger mb-0">{{format_percent($data['fem_population'], $data['total_population'])}}</div>
                                 </div>
                                 <div class="text-center">
-                                    <div class="rounded-circle bg-secondary mx-auto mb-1" style="width: 12px; height: 12px;"></div>
-                                    <div class="small fw-bold text-dark">Hombres</div>
-                                    <div class="h4 text-muted mb-0">{{format_percent($data['male_population'], $data['total_population'])}}</div>
+                                    <div class="rounded-circle bg-primary mx-auto mb-1" style="width: 12px; height: 12px;"></div>
+                                    <div class="small fw-bold">Hombres</div>
+                                    <div class="h4 text-primary mb-0">{{format_percent($data['male_population'], $data['total_population'])}}</div>
                                 </div>
                             </div>
                         </div>
@@ -153,30 +131,6 @@
                 </div>
             </div>
         </main>
-        @push('scripts')
-            <script>
-         document.addEventListener('DOMContentLoaded', () => {
-            const counters = document.querySelectorAll('.counter-animate');
-            counters.forEach(counter => {
-                const target = parseFloat(counter.getAttribute('data-target'));
-                const duration = 1500;
-                const steps = 60;
-                const stepTime = Math.abs(Math.floor(duration / steps));
-                const increment = target / steps;
-                let current = 0;
-
-                const timer = setInterval(() => {
-                current += increment;
-                if (current >= target) {
-                    counter.innerText = target.toFixed(1);
-                    clearInterval(timer);
-                } else {
-                    counter.innerText = current.toFixed(1);
-                }
-                }, stepTime);
-            });
-            });
-        </script>
-        @endpush
     @endsection
+    @vite('resources/js/dashboard.js')
 

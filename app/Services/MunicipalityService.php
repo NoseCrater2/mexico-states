@@ -10,8 +10,8 @@ class MunicipalityService {
     public function __invoke($id)
     {
         return Cache::remember("municipios_$id", now()->addDays(30), function() use ($id) {
-
-            $url = "https://gaia.inegi.org.mx/wscatgeo/v2/mgem/${id}";
+            $endpoint = env('INEGI_API_MUNICIPIOS');
+            $url = "${$endpoint}${id}";
             $response = Http::get($url);
             if($response->successful()){
                 return collect($response->json('datos'));
