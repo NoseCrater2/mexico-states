@@ -57,9 +57,9 @@
 <input class="form-control bg-light border-0 ps-5" id="munSearch" placeholder="Buscar por nombre" type="text"/>
 </div>
 <div class="d-flex gap-2 w-100 w-md-auto">
-<select class="form-select bg-light border-0" id="select-filter">
-<option value="nom_geo,asc">Nombre A-Z</option>
-<option value="nom_geo,desc">Nombre Z-A</option>
+<select class="form-select bg-light border-0" id="select-filter" >
+<option value="nomgeo,asc">Nombre A-Z</option>
+<option value="nomgeo,desc">Nombre Z-A</option>
 <option value="pob_total,asc">Población (Asc)</option>
 <option value="pob_total,desc">Población (Desc)</option>
 <option value="total_viviendas_habitadas,asc">Viviendas (Asc)</option>
@@ -79,17 +79,23 @@
         const cve_ent = @js($state->cve_ent);
         let search = '';
         let debounce;
-        let sort = 'name';
-        let direction = 'asc';
+        let sort =  @js(request('sort')) || 'nomgeo';
+        let direction =  @js(request('direction')) || 'asc';
+        let page = @js(request('page')) || 1;
 
-        async function loadMun() {
+        if(sort && direction){
+             document.getElementById('select-filter').value = `${sort},${direction}`;
+        }
+
+        async function loadMun(url = '/states/'+cve_ent) {
             const params = new URLSearchParams({
                 search,
                 sort,
-                direction
+                direction,
+                page
             });
 
-            const response = await fetch(`/states/${cve_ent}?${params}`, {
+            const response = await fetch(`${url}?${params}`, {
                 headers: {
                     'X-Requested-With': 'XMLHttpRequest'
                 }
@@ -105,6 +111,7 @@
                 clearTimeout(debounce);
 
                 debounce = setTimeout(() => {
+                    page = 1;
                     loadMun();
                 }, 300);
 

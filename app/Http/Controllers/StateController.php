@@ -82,8 +82,14 @@ function showState(Request $request, string $id) {
    $perPage = 4;
 
    $paginated = new LengthAwarePaginator(
-                $municipalities->forPage($page, $perPage), $municipalities->count(),
-                $perPage, $page, ['path' => $request->url(), $request->query() ]
+                $municipalities->forPage($page, $perPage),
+                $municipalities->count(),
+                $perPage,
+                $page,
+                [
+                    'path' => $request->url(),
+                    'query' => $request->query()
+                ]
     );
 
     if($request->ajax()){

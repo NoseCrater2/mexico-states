@@ -6,7 +6,7 @@
 <div class="row align-items-end">
 <div class="col-lg-7">
 <h1 class="display-5 fw-bold text-dark">Entidades Federativas de México</h1>
-<p class="lead text-muted mb-0">Datos demográficos, capitales administrativas y distribuciones de población en las {{ $states->total() }} entidades federativas de México.</p>
+<p class="lead text-muted mb-0">Datos demográficos, distribuciones de población en las {{ $states->total() }} entidades federativas de México.</p>
 </div>
 <div class="col-lg-5 d-flex flex-column flex-sm-row gap-3 justify-content-lg-end mt-4 mt-lg-0">
 <div class="card border-0 shadow-sm bg-light flex-fill">
@@ -42,7 +42,7 @@
     <div class="col-md-8 d-flex gap-2 justify-content-md-end overflow-auto pb-2 pb-md-0">
         <button class="btn d-flex align-items-center gap-1 whitespace-nowrap sort btn-outline-primary" data-sort="nomgeo">
                 <span class="material-symbols-outlined" style="font-size: 18px;">
-                keyboard_arrow_down
+                {{request('direction') == 'desc' ? 'keyboard_arrow_up': 'keyboard_arrow_down' }}
                 </span> Estados
         </button>
         <button class="btn d-flex align-items-center gap-1 whitespace-nowrap sort btn-outline-primary" data-sort="pob_total">
@@ -65,19 +65,22 @@
 
 @push('scripts')
     <script>
-        let search = '';
-        let sort = 'name';
-        let direction = 'asc';
-        let debounce;
 
-        async function loadStates() {
+        let search =  '';
+        let sort =  @js(request('sort')) || 'nomgeo';
+        let direction =  @js(request('direction')) || 'asc';
+        let debounce;
+        let page = @js(request('page')) || 1;
+
+        async function loadStates(url = '/states/') {
             const params = new URLSearchParams({
                 search,
                 sort,
-                direction
+                direction,
+                page
             });
 
-            const response = await fetch(`/states?${params}`, {
+            const response = await fetch(`${url}?${params}`, {
                 headers: {
                     'X-Requested-With': 'XMLHttpRequest'
                 }
@@ -93,7 +96,9 @@
                 clearTimeout(debounce);
 
                 debounce = setTimeout(() => {
+                       page = 1;
                     loadStates();
+
                 }, 300);
 
             });
@@ -110,10 +115,9 @@
                         sort = newSort;
                         direction = 'asc';
                     }
-
                     loadStates();
                     this.children[0].innerHTML = direction  === 'desc' ? ' keyboard_arrow_up' : ' keyboard_arrow_down'
                 });
-            });
+        });
     </script>
 @endpush
