@@ -33,25 +33,24 @@
 <!-- Controls Section -->
 <div class="container-fluid py-3 bg-light border-bottom sticky-top" style="top: 64px; z-index: 1020;">
 <div class="row g-3 align-items-center">
-<div class="col-md-4">
-<div class="input-group shadow-sm">
-<span class="input-group-text bg-white border-end-0"><span class="material-symbols-outlined text-muted">search</span></span>
-
-<input class="form-control border-start-0 ps-0" id="stateSearch" placeholder="Buscar..." type="text"/>
-
-
-</div>
-</div>
-<div class="col-md-8 d-flex gap-2 justify-content-md-end overflow-auto pb-2 pb-md-0">
-<button class="btn btn-primary d-flex align-items-center gap-1 whitespace-nowrap">
-<span class="material-symbols-outlined" style="font-size: 18px;">filter_list</span> Estados
-      </button>
-<div class="dropdown">
-<button class="btn btn-white bg-white border shadow-sm dropdown-toggle d-flex align-items-center gap-1" type="button">
-          Población
+    <div class="col-md-4">
+        <div class="input-group shadow-sm">
+            <span class="input-group-text bg-white border-end-0"><span class="material-symbols-outlined text-muted">search</span></span>
+            <input class="form-control border-start-0 ps-0" id="stateSearch" placeholder="Buscar..." type="text"/>
+        </div>
+    </div>
+    <div class="col-md-8 d-flex gap-2 justify-content-md-end overflow-auto pb-2 pb-md-0">
+        <button class="btn d-flex align-items-center gap-1 whitespace-nowrap sort btn-outline-primary" data-sort="nomgeo">
+                <span class="material-symbols-outlined" style="font-size: 18px;">
+                keyboard_arrow_down
+                </span> Estados
         </button>
-</div>
-</div>
+        <button class="btn d-flex align-items-center gap-1 whitespace-nowrap sort btn-outline-primary" data-sort="pob_total">
+                <span class="material-symbols-outlined" style="font-size: 18px;">
+                  keyboard_arrow_down
+                </span> Población
+        </button>
+    </div>
 </div>
 </div>
 <!-- Data Table Section -->
@@ -62,58 +61,59 @@
 </div>
 </div>
 </div>
-<script>
-let search = '';
-let sort = 'nombre';
-let direction = 'asc';
-let debounce;
-
-async function loadUsers() {
-    const params = new URLSearchParams({
-        search,
-        sort,
-        direction
-    });
-
-    const response = await fetch(`/states?${params}`, {
-        headers: {
-            'X-Requested-With': 'XMLHttpRequest'
-        }
-    });
-
-    document.getElementById('results').innerHTML =
-        await response.text();
-}
-
-
-// Buscar mientras escribe
-document.getElementById('stateSearch')
-    .addEventListener('input', function () {
-        search = this.value;
-        clearTimeout(debounce);
-
-        debounce = setTimeout(() => {
-             loadUsers();
-        }, 300);
-
-    });
-
-
-// Ordenar columnas
-document.querySelectorAll('.sort')
-    .forEach(button => {
-        button.addEventListener('click', function () {
-            const newSort = this.dataset.sort;
-
-            if (sort === newSort) {
-                direction = direction === 'asc' ? 'desc' : 'asc';
-            } else {
-                sort = newSort;
-                direction = 'asc';
-            }
-
-            loadUsers();
-        });
-    });
-</script>
 @endsection
+
+@push('scripts')
+    <script>
+        let search = '';
+        let sort = 'name';
+        let direction = 'asc';
+        let debounce;
+
+        async function loadStates() {
+            const params = new URLSearchParams({
+                search,
+                sort,
+                direction
+            });
+
+            const response = await fetch(`/states?${params}`, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            });
+
+            document.getElementById('results').innerHTML =
+                await response.text();
+        }
+
+        document.getElementById('stateSearch')
+            .addEventListener('input', function () {
+                search = this.value;
+                clearTimeout(debounce);
+
+                debounce = setTimeout(() => {
+                    loadStates();
+                }, 300);
+
+            });
+
+        document.querySelectorAll('.sort')
+                .forEach(button => {
+                    button.addEventListener('click', function () {
+
+                    const newSort = this.dataset.sort;
+
+                    if (sort === newSort) {
+                        direction = direction === 'asc' ? 'desc' : 'asc';
+                    } else {
+                        sort = newSort;
+                        direction = 'asc';
+                    }
+
+                    loadStates();
+                    this.children[0].innerHTML = direction  === 'desc' ? ' keyboard_arrow_up' : ' keyboard_arrow_down'
+                });
+            });
+    </script>
+@endpush

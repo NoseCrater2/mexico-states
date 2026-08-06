@@ -27,7 +27,7 @@
                                     <span class="material-symbols-outlined">groups</span>
                                 </div>
                                 <div class="position-relative z-1 mt-3">
-                                    <h2 class="display-5 fw-bold mb-1 counter-animate" data-target="126.0">0.0</h2>
+                                    <h2 class="display-5 fw-bold mb-1 counter-animate" data-target="{{format_number($data['total_population'], 2)}}">0.0</h2>
                                     <p class="small mb-0 opacity-75">Millones de habitantes</p>
                                 </div>
                             </div>
@@ -42,7 +42,7 @@
                                     <span class="material-symbols-outlined text-tertiary">cake</span>
                                 </div>
                                 <div class="mt-3">
-                                    <h2 class="display-5 fw-bold text-tertiary mb-1 counter-animate" data-target="29.2">0.0</h2>
+                                    <h2 class="display-5 fw-bold text-tertiary mb-1 counter-animate" data-target="{{$data['age_avg']}}">0.0</h2>
                                     <p class="small text-muted mb-0">Años</p>
                                 </div>
                             </div>
@@ -57,7 +57,7 @@
                                     <span class="material-symbols-outlined text-primary">child_care</span>
                                 </div>
                                 <div class="mt-3">
-                                    <h2 class="display-5 fw-bold text-primary mb-1"><span class="counter-animate" data-target="15.4">0.0</span><span class="fs-4 ms-1 opacity-75">%</span></h2>
+                                    <h2 class="display-5 fw-bold text-primary mb-1"><span class="counter-animate" data-target="{{$data['birth_rate']}}">0.0</span><span class="fs-4 ms-1 opacity-75">%</span></h2>
                                     <p class="small text-muted mb-0">Nacimientos por 1,000 hab.</p>
                                 </div>
                             </div>
@@ -73,7 +73,7 @@
                                     <span class="material-symbols-outlined">favorite</span>
                                 </div>
                                 <div class="position-relative z-1 mt-3">
-                                    <h2 class="display-5 fw-bold mb-1 counter-animate" data-target="75.4">0.0</h2>
+                                    <h2 class="display-5 fw-bold mb-1 counter-animate" data-target="{{$data['life_expectancy']}}">0.0</h2>
                                     <p class="small mb-0 opacity-75">Años promedio</p>
                                 </div>
                             </div>
@@ -139,12 +139,12 @@
                                 <div class="text-center">
                                     <div class="rounded-circle bg-primary mx-auto mb-1" style="width: 12px; height: 12px;"></div>
                                     <div class="small fw-bold text-dark">Mujeres</div>
-                                    <div class="h4 text-primary mb-0">51.2%</div>
+                                    <div class="h4 text-primary mb-0">{{format_percent($data['fem_population'], $data['total_population'])}}</div>
                                 </div>
                                 <div class="text-center">
                                     <div class="rounded-circle bg-secondary mx-auto mb-1" style="width: 12px; height: 12px;"></div>
                                     <div class="small fw-bold text-dark">Hombres</div>
-                                    <div class="h4 text-muted mb-0">48.8%</div>
+                                    <div class="h4 text-muted mb-0">{{format_percent($data['male_population'], $data['total_population'])}}</div>
                                 </div>
                             </div>
                         </div>
@@ -154,7 +154,6 @@
             </div>
         </main>
         @push('scripts')
-            <script crossorigin="anonymous" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
             <script>
          document.addEventListener('DOMContentLoaded', () => {
             const counters = document.querySelectorAll('.counter-animate');
