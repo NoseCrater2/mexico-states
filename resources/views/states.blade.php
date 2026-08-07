@@ -11,7 +11,7 @@
                 <x-card title="total de entidades">
                     <x-slot:content>
                         <div class="d-flex align-items-baseline gap-1">
-                            <span class="h2 mb-0 text-primary fw-bold">{{ $states->total() }}</span>
+                            <span class="h2 mb-0 text-primary display-5 fw-bold">{{ $states->total() }}</span>
                             <span class="text-muted small">Estados</span>
                         </div>
                     </x-slot:content>
@@ -20,7 +20,7 @@
                 <x-card title="población total">
                     <x-slot:content>
                         <div class="d-flex align-items-baseline gap-1">
-                            <span class="h2 mb-0 text-danger fw-bold">126.0</span>
+                            <span class="h2 mb-0 text-danger display-5 fw-bold">126.0</span>
                             <span class="text-muted small">Millones</span>
                         </div>
                     </x-slot:content>
