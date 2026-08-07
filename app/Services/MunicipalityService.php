@@ -7,11 +7,12 @@ use Illuminate\Support\Facades\Http;
 
 class MunicipalityService {
 
-    public function __invoke($id)
+    public function __invoke($id, $cache)
     {
-        return Cache::remember("municipios_$id", now()->addDays(30), function() use ($id) {
+
+        return $cache->remember("municipios_$id", function() use ($id) {
             $endpoint = env('INEGI_API_MUNICIPIOS');
-            $url = "${$endpoint}${id}";
+            $url = "${endpoint}${id}";
             $response = Http::get($url);
             if($response->successful()){
                 return collect($response->json('datos'));
