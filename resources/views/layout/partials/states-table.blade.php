@@ -13,12 +13,12 @@
     @forelse ($states as $state)
         <tr>
             <td>
-                <div class="badge bg-primary-subtle text-primary p-2 rounded text-uppercase" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;">{{$state->cve_ent}}</div>
+                <div class="badge bg-primary-subtle text-primary p-2 rounded text-uppercase" style="max-width: 80px; height: 32px; display: flex; align-items: center; justify-content: center;">{{$state->cve_ent}}  | {{$state->nom_abrev}}</div>
             </td>
             <td class="ps-4">
                 <div class="d-flex align-items-center gap-3">
                     <span class="h5 mb-0 fw-bold">{{$state->nomgeo}}</span>
-                    <div class="badge bg-success-subtle text-success p-2 rounded text-uppercase" style="width: auto; height: 32px; display: flex; align-items: center; justify-content: center;">{{$state->nom_abrev}}</div>
+
                 </div>
             </td>
             <td class="text-end fw-bold">{{ format_number($state->pob_total, 0) }}</td>
